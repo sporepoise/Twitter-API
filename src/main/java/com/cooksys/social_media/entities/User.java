@@ -17,26 +17,16 @@ public class User {
     @Id
     private Long id;
 
-    private String username;
+    @Embedded
+    private Credentials credentials;
 
-    private String password;
+    @Embedded
+    private Profile profile;
 
     private Timestamp joined;
 
     private boolean deleted;
 
-    private String firstName;
 
-    private String lastName;
-
-    private String email;
-
-    private String phone;
-
-    @Embedded
-    private Profile profile;
-
-    @Embedded
-    private Credentials credentials;
 
 }
