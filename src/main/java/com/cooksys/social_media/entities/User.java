@@ -2,10 +2,7 @@ package com.cooksys.social_media.entities;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,5 +32,11 @@ public class User {
     private String email;
 
     private String phone;
+
+    @Embedded
+    private Profile profile;
+
+    @Embedded
+    private Credentials credentials;
 
 }
