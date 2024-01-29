@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface HashtagMapper {
 
-    HashtagResponseDto entityToDto(Hashtag hashtag);
+    HashtagDto entityToDto(Hashtag hashtag);
 
-    List<HashtagResponseDto> entitiesToDtos(List<Hashtag> hashtags);
+    List<HashtagDto> entitiesToDtos(List<Hashtag> hashtags);
 
-    Hashtag requestDtoToEntity(HashtagRequestDto hashtagRequestDto);
+    Hashtag dtoToEntity(HashtagDto hashtagDto);
 }
