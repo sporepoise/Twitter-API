@@ -5,13 +5,12 @@ import lombok.*;
 
 @NoArgsConstructor
 @Data
-public class HashTagDto {
+public class HashtagDto {
 	
 	private String label; // must be unique
 
 	private Timestamp firstUsed; // assigned on creation
 
-	
 	
 	// updated every time a new tweet is tagged with the hashtag
 	private Timestamp lastUsed;

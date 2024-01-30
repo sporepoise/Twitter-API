@@ -16,7 +16,7 @@ public class ContextDto {
 	 */
 	
 	
-	private Tweet before; 
-	private Tweet target;
-	private Tweet after;
+	private TweetResponseDto before; 
+	private TweetResponseDto target;
+	private TweetResponseDto after;
 }

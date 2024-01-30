@@ -10,5 +10,5 @@ public class UserResponseDto {
 
 	private String username; // should be unique
 	private ProfileDto profile; 
-	private Timestamp joined; // asigned when user is created
+	private Timestamp joined; // assigned when user is created
 }
