@@ -2,6 +2,7 @@ package com.cooksys.social_media.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Embeddable;
 
@@ -10,7 +11,9 @@ import javax.persistence.Embeddable;
 @Data
 public class Credentials {
 
+    @NonNull
     private String username;
 
+    @NonNull
     private String password;
 }

@@ -5,8 +5,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-//TODO: find out if I need to include other mappers in 'uses' argument
-@Mapper(componentModel = "spring", uses = {HashtagMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface TweetMapper {
 
     TweetResponseDto entityToDto(Tweet tweet);

@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Data
@@ -17,11 +18,14 @@ public class Tweet {
     @Id
     private Long id;
 
-    private Integer author;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private User user;
 
+    @CreationTimestamp
     private Timestamp posted;
 
-    private boolean deleted;
+    private boolean deleted = false;
 
     private String content;
 
@@ -29,9 +33,7 @@ public class Tweet {
 
     private Integer repostOf;
 
-    @ManyToOne
-    @JoinColumn(name = "author")
-    private User user;
+
 
     @ManyToMany
     @JoinTable(
@@ -40,9 +42,13 @@ public class Tweet {
             inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
     private List<Hashtag> hashtags;
 
-    @ManyToMany(mappedBy = "tweetList")
+    @ManyToMany(mappedBy = "likedTweets")
     private List<User> users;
 
-    @ManyToMany(mappedBy = "tweetsList")
-    private List<User> userList;
+    @ManyToMany
+    @JoinTable(
+            name = "user_mentions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
+    private List<User> usersMentioned;
 }

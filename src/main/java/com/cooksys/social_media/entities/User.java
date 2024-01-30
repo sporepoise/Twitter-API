@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @NoArgsConstructor
@@ -24,9 +25,10 @@ public class User {
     @Embedded
     private Profile profile;
 
+    @CreationTimestamp
     private Timestamp joined;
 
-    private boolean deleted;
+    private boolean deleted = false;
 
     @OneToMany(mappedBy = "user")
     private List<Tweet> tweets;
@@ -36,15 +38,19 @@ public class User {
             name = "user_likes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tweet_id"))
-    private List<Tweet> tweetList;
+    private List<Tweet> likedTweets;
+
+    @ManyToMany(mappedBy = "usersMentioned")
+    private List<Tweet> mentionedTweets;
 
     @ManyToMany
     @JoinTable(
-            name = "user_mentions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
-    private List<Tweet> tweetsList;
+            name = "followers_following",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private List<User> followers;
 
-    //TODO: create relational table for following/followers
-
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;
 }
