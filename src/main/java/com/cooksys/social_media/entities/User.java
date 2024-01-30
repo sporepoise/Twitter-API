@@ -31,5 +31,18 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Tweet> tweets;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
+    private List<Tweet> tweetList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_mentions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
+    private List<Tweet> tweetsList;
 
 }
