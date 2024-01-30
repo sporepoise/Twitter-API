@@ -1,10 +1,9 @@
 package com.cooksys.social_media.entities;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +28,16 @@ public class Tweet {
     private Integer inReplyTo;
 
     private Integer repostOf;
+
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tweet_hashtags",
+            joinColumns = @JoinColumn(name = "tweet_id"),
+            inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
+    private List<Hashtag> hashtags;
 
 }

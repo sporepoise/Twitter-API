@@ -1,6 +1,7 @@
 package com.cooksys.social_media.entities;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -27,6 +28,8 @@ public class User {
 
     private boolean deleted;
 
+    @OneToMany(mappedBy = "user")
+    private List<Tweet> tweets;
 
 
 }
