@@ -30,13 +30,23 @@ public class TweetResponseDto {
 	//Fields
 	private int id;
 	
+<<<<<<< HEAD
 	private UserResponseDto author;
+=======
+	private User author;
+>>>>>>> master
 	
 	private Timestamp posted;
 	
 	private String content;
 	
+<<<<<<< HEAD
 	private TweetRequestDto inReplyTo;
 	
 	private TweetRequestDto repostOf;
+=======
+	private Tweet inReplyTo;
+	
+	private Tweet repostOf;
+>>>>>>> master
 }
