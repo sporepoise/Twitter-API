@@ -45,4 +45,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "tweet_id"))
     private List<Tweet> tweetsList;
 
+    //TODO: create relational table for following/followers
+
 }
