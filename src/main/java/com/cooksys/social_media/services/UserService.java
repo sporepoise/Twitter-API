@@ -9,7 +9,7 @@ import com.cooksys.social_media.entities.User;
 
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserResponseDto> getAllUsers();
 
     UserResponseDto createUser(UserRequestDto userRequestDto);
 
