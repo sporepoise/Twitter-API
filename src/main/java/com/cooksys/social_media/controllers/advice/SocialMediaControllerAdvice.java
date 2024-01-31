@@ -3,6 +3,7 @@ package com.cooksys.social_media.controllers.advice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.cooksys.social_media.dtos.ErrorDto;
 import com.cooksys.social_media.exceptions.BadRequestException;
 import com.cooksys.social_media.exceptions.NotFoundException;
 

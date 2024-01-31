@@ -1,5 +1,7 @@
 package com.cooksys.social_media.mappers;
 
+import com.cooksys.social_media.dtos.UserRequestDto;
+import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.User;
 import org.mapstruct.Mapper;
 
