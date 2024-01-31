@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
     private final UserService userService;
 
