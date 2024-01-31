@@ -5,12 +5,14 @@ import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
+import com.cooksys.social_media.exceptions.NotFoundException;
 import com.cooksys.social_media.mappers.UserMapper;
 import com.cooksys.social_media.repositories.UserRepository;
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUser(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUser'");
+        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
+        if(optionalUser.isEmpty()){
+            throw new NotFoundException("Cannot find user with username: " + username);
+        }
+        return userMapper.entityToDto(optionalUser.get());
     }
 
     @Override
