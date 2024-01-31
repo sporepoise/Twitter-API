@@ -15,6 +15,9 @@ target/
 *.iml
 *.ipr
 
+### resources ###
+application.properties
+
 ### NetBeans ###
 nbproject/private/
 build/
@@ -23,4 +26,9 @@ dist/
 nbdist/
 .nb-gradle/
 
+<<<<<<< HEAD
 .DS_Store
+=======
+### macOS system files ###
+**/.DS_Store
+>>>>>>> origin/master
