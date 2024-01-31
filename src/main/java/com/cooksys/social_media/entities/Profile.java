@@ -1,13 +1,13 @@
 package com.cooksys.social_media.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-
 import javax.persistence.Embeddable;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
 @Embeddable
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Profile {
 

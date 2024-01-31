@@ -28,15 +28,10 @@ public class TweetResponseDto {
 	 
 	
 	//Fields
-	private int id;
-	
-	private User author;
-	
-	private Timestamp posted;
-	
-	private String content;
-	
-	private Tweet inReplyTo;
-	
-	private Tweet repostOf;
+	private Long id;
+    private UserResponseDto author;
+    private Timestamp posted;
+    private String content;
+    private TweetResponseDto inReplyTo;
+    private TweetResponseDto repostOf;
 }

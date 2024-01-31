@@ -1,19 +1,20 @@
 package com.cooksys.social_media.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Embeddable
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Credentials {
 
-    @NonNull
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @NonNull
+    @Column(nullable = false)
     private String password;
+
 }

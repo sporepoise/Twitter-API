@@ -1,8 +1,9 @@
 package com.cooksys.social_media.dtos;
 
-import com.cooksys.social_media.entities.Tweet;
+import java.util.List;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
@@ -16,7 +17,7 @@ public class ContextDto {
 	 */
 	
 	
-	private Tweet before; 
-	private Tweet target;
-	private Tweet after;
+	private TweetResponseDto target;
+    private List<TweetResponseDto> before;
+    private List<TweetResponseDto> after;
 }
