@@ -2,6 +2,7 @@ package com.cooksys.social_media.services;
 
 import java.util.List;
 
+import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
@@ -25,7 +26,7 @@ public interface UserService {
 
     List<Tweet> getUserFeed(String username);
 
-    List<Tweet> getUserTweets(String username);
+    List<TweetResponseDto> getUserTweets(String username);
 
     List<Tweet> getUserMentions(String username);
 
