@@ -1,7 +1,6 @@
 package com.cooksys.social_media.mappers;
 
 import com.cooksys.social_media.dtos.ProfileDto;
-import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Profile;
 import org.mapstruct.Mapper;
 
