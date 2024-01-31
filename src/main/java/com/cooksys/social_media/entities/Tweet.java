@@ -29,9 +29,9 @@ public class Tweet {
 
     private String content;
 
-    private Integer inReplyTo;
+    private Tweet inReplyTo;
 
-    private Integer repostOf;
+    private Tweet repostOf;
 
 
 

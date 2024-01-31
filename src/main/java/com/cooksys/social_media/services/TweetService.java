@@ -2,7 +2,8 @@ package com.cooksys.social_media.services;
 
 import java.util.List;
 
-import com.cooksys.social_media.controllers.TweetResponseDto;
+import com.cooksys.social_media.dtos.TweetRequestDto;
+import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;

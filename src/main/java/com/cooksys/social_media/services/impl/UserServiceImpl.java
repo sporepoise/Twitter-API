@@ -1,9 +1,9 @@
 package com.cooksys.social_media.services.impl;
 
+import com.cooksys.social_media.dtos.UserRequestDto;
+import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
-import com.cooksys.social_media.services.UserRequestDto;
-import com.cooksys.social_media.services.UserResponseDto;
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -17,12 +17,6 @@ public class UserServiceImpl implements UserService {@Override
     public List<User> getAllUsers() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
-    }
-
-    @Override
-    public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
     }
 
     @Override
@@ -41,18 +35,6 @@ public class UserServiceImpl implements UserService {@Override
     public UserResponseDto deleteUser(String username) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
-    }
-
-    @Override
-    public void followUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'followUser'");
-    }
-
-    @Override
-    public void unfollowUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unfollowUser'");
     }
 
     @Override
@@ -83,5 +65,23 @@ public class UserServiceImpl implements UserService {@Override
     public List<User> getUserFolloweringUser(String username) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getUserFolloweringUser'");
+    }
+
+    @Override
+    public UserResponseDto createUser(UserRequestDto userRequestDto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
+    }
+
+    @Override
+    public void followUser(String username, UserRequestDto userRequestDto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'followUser'");
+    }
+
+    @Override
+    public void unfollowUser(String username, UserRequestDto userRequestDto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'unfollowUser'");
     }
 }
