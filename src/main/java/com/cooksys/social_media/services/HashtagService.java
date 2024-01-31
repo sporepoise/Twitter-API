@@ -10,4 +10,5 @@ public interface HashtagService {
     List<Hashtag> getAllHashtags();
 
     List<Tweet> getAllTweetsWithHashtag();
+
 }

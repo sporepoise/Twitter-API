@@ -23,4 +23,5 @@ public class ValidateServiceImpl implements ValidateService {@Override
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isUsernameAvailable'");
     }
+
 }

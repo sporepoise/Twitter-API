@@ -2,8 +2,10 @@ package com.cooksys.social_media.services.impl;
 
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
-import com.cooksys.social_media.services.UserRequestDto;
-import com.cooksys.social_media.services.UserResponseDto;
+
+import com.cooksys.social_media.dtos.UserRequestDto;
+import com.cooksys.social_media.dtos.UserResponseDto;
+
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -11,9 +13,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {@Override
+public class UserServiceImpl implements UserService {
+    @Override
     public List<User> getAllUsers() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
@@ -84,4 +89,5 @@ public class UserServiceImpl implements UserService {@Override
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getUserFolloweringUser'");
     }
+
 }

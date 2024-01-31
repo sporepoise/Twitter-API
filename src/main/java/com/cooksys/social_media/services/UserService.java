@@ -1,8 +1,10 @@
 package com.cooksys.social_media.services;
 
+
 import java.util.List;
 
-import com.cooksys.social_media.controllers.UserResponseDto;
+import com.cooksys.social_media.dtos.UserResponseDto;
+import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
@@ -31,4 +33,5 @@ public interface UserService {
     List<User> getUserFollowers(String username);
 
     List<User> getUserFolloweringUser(String username);
+
 }

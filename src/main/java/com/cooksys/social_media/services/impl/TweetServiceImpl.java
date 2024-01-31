@@ -3,8 +3,9 @@ package com.cooksys.social_media.services.impl;
 import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
-import com.cooksys.social_media.services.TweetRequestDto;
-import com.cooksys.social_media.services.TweetResponseDto;
+import com.cooksys.social_media.dtos.TweetRequestDto;
+import com.cooksys.social_media.dtos.TweetResponseDto;
+
 import com.cooksys.social_media.services.TweetService;
 import lombok.RequiredArgsConstructor;
 
@@ -12,9 +13,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class TweetServiceImpl implements TweetService {@Override
+public class TweetServiceImpl implements TweetService {
+    @Override
     public List<Tweet> getAllTweets() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllTweets'");
