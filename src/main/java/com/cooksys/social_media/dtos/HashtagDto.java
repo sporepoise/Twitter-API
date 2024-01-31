@@ -5,7 +5,7 @@ import lombok.*;
 
 @NoArgsConstructor
 @Data
-public class HashTagDto {
+public class HashtagDto {
 	
 	private String label; // must be unique
 

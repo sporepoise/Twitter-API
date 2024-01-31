@@ -1,5 +1,7 @@
 package com.cooksys.social_media.mappers;
 
+import com.cooksys.social_media.dtos.TweetRequestDto;
+import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import org.mapstruct.Mapper;
 
