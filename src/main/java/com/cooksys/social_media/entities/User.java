@@ -1,14 +1,13 @@
 package com.cooksys.social_media.entities;
 
 import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @NoArgsConstructor
@@ -20,20 +19,38 @@ public class User {
     @Id
     private Long id;
 
-    private String username;
+    @Embedded
+    private Credentials credentials;
 
-    private String password;
+    @Embedded
+    private Profile profile;
 
+    @CreationTimestamp
     private Timestamp joined;
 
-    private boolean deleted;
+    private boolean deleted = false;
 
-    private String firstName;
+    @OneToMany(mappedBy = "user")
+    private List<Tweet> tweets;
 
-    private String lastName;
+    @ManyToMany
+    @JoinTable(
+            name = "user_likes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
+    private List<Tweet> likedTweets;
 
-    private String email;
+    @ManyToMany(mappedBy = "usersMentioned")
+    private List<Tweet> mentionedTweets;
 
-    private String phone;
+    @ManyToMany
+    @JoinTable(
+            name = "followers_following",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private List<User> followers;
 
+    @ManyToMany(mappedBy = "followers")
+    private List<User> following;
 }
