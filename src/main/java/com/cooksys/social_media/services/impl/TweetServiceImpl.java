@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TweetServiceImpl implements TweetService {@Override
+public class TweetServiceImpl implements TweetService {
+    @Override
     public List<Tweet> getAllTweets() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllTweets'");

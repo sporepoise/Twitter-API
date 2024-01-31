@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @NoArgsConstructor
 @Data
@@ -22,6 +23,8 @@ public class Hashtag {
 
     private String label;
 
+    //TODO: should i use creationtimestamp here?
+    //@CreationTimestamp
     private Timestamp firstUsed;
 
     private Timestamp lastUsed;

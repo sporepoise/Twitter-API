@@ -4,6 +4,7 @@ import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
+
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {@Override
+public class UserServiceImpl implements UserService {
+    @Override
     public List<User> getAllUsers() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");

@@ -8,6 +8,7 @@ import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
+
 public interface TweetService {
 
     List<Tweet> getAllTweets();
@@ -35,6 +36,5 @@ public interface TweetService {
     List<Tweet> getRepostsOfTweet(Long id);
 
     List<User> getUsersInTweet(Long id);
-
 
 }
