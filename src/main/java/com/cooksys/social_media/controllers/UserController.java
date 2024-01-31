@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.social_media.dtos.UserRequestDto;
+import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 import com.cooksys.social_media.services.UserService;
@@ -51,12 +53,12 @@ public class UserController {
 
     @PostMapping("/@{username}/follow")
     public void followUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto) {
-        return userService.followUser(username, userRequestDto);
+        userService.followUser(username, userRequestDto);
     }
 
     @PostMapping("/@{username}/unfollow")
     public void unfollowUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto) {
-        return userService.unfollowUser(username, userRequestDto);
+        userService.unfollowUser(username, userRequestDto);
     }
 
     @GetMapping("/@{username}/feed")

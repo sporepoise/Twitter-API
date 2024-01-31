@@ -8,9 +8,12 @@ import lombok.*;
 @Data
 public class UserResponseDto {
 
-	private String username; // should be unique
-	private ProfileDto profile; 
 
-	private Timestamp joined; // assigned when user is created
+	private String username;
+
+	private ProfileDto profile;
+
+	private Timestamp joined;
+	
 
 }

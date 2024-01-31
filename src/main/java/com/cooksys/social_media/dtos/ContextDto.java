@@ -1,24 +1,19 @@
 package com.cooksys.social_media.dtos;
 
-import com.cooksys.social_media.entities.Tweet;
+import java.util.List;
 
 import lombok.*;
 
 @NoArgsConstructor
 @Data
-public class ContextDto {
-
-	/*
-	 * The before property represents the chain of replies
-	 * that led to the target tweet, and the after property
-	 * represents the chain of replies that followed the 
-	 * target tweet.
-	 */
+public class ContextDto {	
 	
-	
+	 private TweetResponseDto target;
 
-	private TweetResponseDto before; 
-	private TweetResponseDto target;
-	private TweetResponseDto after;
+
+	 private List<TweetResponseDto> before;
+
+	 private List<TweetResponseDto> after;
+	 
 
 }

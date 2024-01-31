@@ -49,7 +49,7 @@ public class TweetController {
 
     @PostMapping("/{id}/like")
     public void likeTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
-         tweetService.likeTweet(tweetRequestDto, id);
+        tweetService.likeTweet(tweetRequestDto, id);
     }
 
     @PostMapping("/{id}/reply")

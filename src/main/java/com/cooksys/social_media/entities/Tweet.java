@@ -1,6 +1,7 @@
 package com.cooksys.social_media.entities;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -19,8 +20,7 @@ public class Tweet {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "author")
-    private User user;
+    private User author;
 
     @CreationTimestamp
     private Timestamp posted;
@@ -29,26 +29,35 @@ public class Tweet {
 
     private String content;
 
-    private Integer inReplyTo;
+    @OneToMany(mappedBy = "inReplyTo")
+    private List<Tweet> replies;
 
-    private Integer repostOf;
+    @ManyToOne
+    private Tweet inReplyTo;
 
+    @OneToMany(mappedBy = "repostOf")
+    private List<Tweet> reposts;
 
+    @ManyToOne
+    private Tweet repostOf;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "tweet_hashtags",
             joinColumns = @JoinColumn(name = "tweet_id"),
-            inverseJoinColumns = @JoinColumn(name = "hashtag_id"))
-    private List<Hashtag> hashtags;
+            inverseJoinColumns = @JoinColumn(name = "hashtag_id")
+    )
+    private List<Hashtag> hashtags = new ArrayList<>();
 
     @ManyToMany(mappedBy = "likedTweets")
-    private List<User> users;
+    private List<User> likedByUsers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "user_mentions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "tweet_id"))
-    private List<User> usersMentioned;
+            joinColumns = @JoinColumn(name = "tweet_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> mentionedUsers = new ArrayList<>();
+    
 }

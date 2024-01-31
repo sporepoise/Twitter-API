@@ -7,14 +7,10 @@ import lombok.*;
 @Data
 public class HashtagDto {
 	
-	private String label; // must be unique
+	private String label;
 
-	private Timestamp firstUsed; // assigned on creation
+	private Timestamp firstUsed;
 
-	
-	
-	// updated every time a new tweet is tagged with the hashtag
-	private Timestamp lastUsed;
-	
+	private Timestamp lastUsed;	
 
 }
