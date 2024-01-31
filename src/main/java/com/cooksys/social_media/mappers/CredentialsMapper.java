@@ -4,14 +4,11 @@ import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.entities.Credentials;
 import org.mapstruct.Mapper;
 
-
 @Mapper(componentModel = "spring")
-
 public interface CredentialsMapper {
-   //TODO: where to add - @Mapping(target = "username", source = "credentials.username") ?
+
     CredentialsDto entityToDto(Credentials credentials);
 
-   // List<CredentialsResponseDto> entitiesToDtos(List<Credentials> credentials);
-
     Credentials dtoToEntity(CredentialsDto credentialsDto);
+
 }

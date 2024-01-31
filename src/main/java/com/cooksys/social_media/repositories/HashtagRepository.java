@@ -8,5 +8,4 @@ import com.cooksys.social_media.entities.Hashtag;
 @Repository
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 	
-	// TODO: Add queries here.
 }

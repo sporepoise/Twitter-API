@@ -92,6 +92,4 @@ public class TweetServiceImpl implements TweetService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'repostTweet'");
     }
-
-    //remember to use keyword final when declaring fields
 }

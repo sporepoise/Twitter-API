@@ -5,8 +5,6 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class TweetRequestDto {
-
-	//Fields
 	
 	private String content;
 	
