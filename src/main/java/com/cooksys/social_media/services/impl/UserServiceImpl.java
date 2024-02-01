@@ -34,6 +34,15 @@ public class UserServiceImpl implements UserService {
 
 
     private final ValidateService validateService;
+
+    private User getExistingUser(String username){
+        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
+        if(optionalUser.isEmpty()){
+            throw new NotFoundException("Cannot find user with username: " + username);
+        }
+
+        return optionalUser.get();
+    }
     @Override
     public List<UserResponseDto> getAllUsers() {
         return userMapper.entitiesToDtos(userRepository.findAllByDeletedFalse());
@@ -49,9 +58,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto updateUser(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
+    public UserResponseDto updateUser(String username, UserRequestDto userRequestDto) {
+      User user = getExistingUser(username);
+      User userToCompare = userMapper.requestDtoToEntity(userRequestDto);
+
+      if(!user.getCredentials().equals(userToCompare.getCredentials())){
+          throw new BadRequestException("The username or password provided is incorrect.");
+      }
+      User userToUpdate = userRepository.getById(user.getId());
+      userToUpdate.setProfile(userToCompare.getProfile());
+      try{
+          userRepository.saveAndFlush(userToUpdate);
+      }catch(Exception e){
+          throw new BadRequestException("Please fill out all required fields.");
+        }
+      return userMapper.entityToDto(userToUpdate);
     }
 
     @Override
@@ -116,6 +137,11 @@ public class UserServiceImpl implements UserService {
 //        TODO: test after pulling validateService methods
 //        if(validateService.doesUsernameExist(newUser.getCredentials().getUsername())){
 //            newUser.setDeleted(false);
+//            try{
+//                userRepository.saveAndFlush(newUser);
+//            } catch (Exception e){
+//                throw new BadRequestException("Please fill out all required fields.");
+//            }
 //            return userMapper.entityToDto(newUser);
 //        }
 //
