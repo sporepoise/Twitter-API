@@ -23,7 +23,7 @@ public interface TweetService {
 
     void likeTweet(CredentialsDto credentialDto, Long id);
 
-    TweetResponseDto replyToTweet(CredentialsDto credentialsDto, Long id);
+    TweetResponseDto replyToTweet(TweetRequestDto tweetRequestDto, Long id);
 
     TweetResponseDto repostTweet(CredentialsDto credentialsDto, Long id);
 

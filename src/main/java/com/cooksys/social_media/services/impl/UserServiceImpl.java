@@ -124,27 +124,22 @@ public class UserServiceImpl implements UserService {
         return tweetMapper.entitiesToDtos(mentionedTweets);
     }
 
-    //not done
+
 	@Override
 	public List<UserResponseDto> getUserFollowers(String username) {
-		Optional<User> user = userRepository.findByCredentials_Username(username);
+		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
 		List<UserResponseDto> followers = new ArrayList<UserResponseDto>();
 
 		user.ifPresent(userEntity -> {
 
-			if (!userEntity.isDeleted()) {
-				for (User u : userEntity.getFollowers()) {
-					if (!u.isDeleted()) {
-						followers.add(userMapper.entityToDto(u));
-					}
+			for (User u : userEntity.getFollowers()) {
+				if (!u.isDeleted()) {
+					followers.add(userMapper.entityToDto(u));
 				}
-			} else {
-				//throw new NotFoundException("User not found");
 			}
+
 		});
 
-		//User can be deleted 
-		
 		// user doesn't exist
 		if (user.isEmpty()) {
 			throw new NotFoundException("User not found.");
@@ -152,13 +147,28 @@ public class UserServiceImpl implements UserService {
 		return followers;
 	}
 
-	//not done
-    @Override
-    public List<UserResponseDto> getUserFolloweringUser(String username) {
-    	Optional<User> user = userRepository.findByCredentials_Username(username);
+
+	@Override
+	public List<UserResponseDto> getUserFolloweringUser(String username) {
+		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
 		List<UserResponseDto> following = new ArrayList<UserResponseDto>();
-       return null;
-    }
+
+		user.ifPresent(userEntity -> {
+
+			for (User u : userEntity.getFollowing()) {
+				if (!u.isDeleted()) {
+					following.add(userMapper.entityToDto(u));
+				}
+			}
+
+		});
+
+		// user doesn't exist
+		if (user.isEmpty()) {
+			throw new NotFoundException("User not found.");
+		}
+		return following;
+	}
 
     @Override
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
