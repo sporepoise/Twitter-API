@@ -2,6 +2,8 @@ package com.cooksys.social_media.controllers;
 
 import java.util.List;
 
+import com.cooksys.social_media.dtos.HashtagDto;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ public class HashtagController {
     private final HashtagService hashtagService;
 
     @GetMapping
-    public List<Hashtag> getAllHashtags() {
+    public List<HashtagDto> getAllHashtags() {
         return hashtagService.getAllHashtags();
     }
 

@@ -77,12 +77,12 @@ public class UserController {
     }
 
     @GetMapping("/@{username}/followers")
-    public List<User> getUserFollowers(@PathVariable String username) {
+    public List<UserResponseDto> getUserFollowers(@PathVariable String username) {
         return userService.getUserFollowers(username);
     }
 
     @GetMapping("/@{username}/following")
-    public List<User> getUsersFollowingUser(@PathVariable String username) {
+    public List<UserResponseDto> getUsersFollowingUser(@PathVariable String username) {
         return userService.getUserFolloweringUser(username);
     }
 

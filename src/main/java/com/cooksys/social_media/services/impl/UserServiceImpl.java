@@ -4,17 +4,23 @@ import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
-
+import com.cooksys.social_media.exceptions.NotFoundException;
+import com.cooksys.social_media.mappers.UserMapper;
+import com.cooksys.social_media.repositories.UserRepository;
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+	private final UserRepository userRepository;
+	private final UserMapper userMapper;
     @Override
     public List<User> getAllUsers() {
         // TODO Auto-generated method stub
@@ -57,16 +63,40 @@ public class UserServiceImpl implements UserService {
         throw new UnsupportedOperationException("Unimplemented method 'getUserMentions'");
     }
 
-    @Override
-    public List<User> getUserFollowers(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserFollowers'");
-    }
+    //not done
+	@Override
+	public List<UserResponseDto> getUserFollowers(String username) {
+		Optional<User> user = userRepository.findByCredentials_Username(username);
+		List<UserResponseDto> followers = new ArrayList<UserResponseDto>();
 
+		user.ifPresent(userEntity -> {
+
+			if (!userEntity.isDeleted()) {
+				for (User u : userEntity.getFollowers()) {
+					if (!u.isDeleted()) {
+						followers.add(userMapper.entityToDto(u));
+					}
+				}
+			} else {
+				//throw new NotFoundException("User not found");
+			}
+		});
+
+		//User can be deleted 
+		
+		// user doesn't exist
+		if (user.isEmpty()) {
+			throw new NotFoundException("User not found.");
+		}
+		return followers;
+	}
+
+	//not done
     @Override
-    public List<User> getUserFolloweringUser(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserFolloweringUser'");
+    public List<UserResponseDto> getUserFolloweringUser(String username) {
+    	Optional<User> user = userRepository.findByCredentials_Username(username);
+		List<UserResponseDto> following = new ArrayList<UserResponseDto>();
+       return null;
     }
 
     @Override
