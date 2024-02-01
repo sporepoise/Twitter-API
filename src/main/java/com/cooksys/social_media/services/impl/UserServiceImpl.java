@@ -98,12 +98,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<TweetResponseDto> getUserTweets(String username) {
-        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
-        if(optionalUser.isEmpty()){
-            throw new NotFoundException("Cannot find user with username: " + username);
-        }
 
-        User user = optionalUser.get();
+        User user = getExistingUser(username);
 
         return tweetMapper.entitiesToDtos(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
     }
@@ -111,12 +107,7 @@ public class UserServiceImpl implements UserService {
     //TODO: retest after creating post tweet method
     @Override
     public List<TweetResponseDto> getUserMentions(String username) {
-        //TODO: create separate method for this block of code
-        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
-        if(optionalUser.isEmpty()){
-            throw new NotFoundException("Cannot find user with username: " + username);
-        }
-
+        User user = getExistingUser(username);
         List<Tweet> mentionedTweets = new ArrayList<>();
 
         for( Tweet t: tweetRepository.findAllByDeletedFalseOrderByPostedDesc()){
@@ -124,6 +115,7 @@ public class UserServiceImpl implements UserService {
                 mentionedTweets.add(t);
             }
         }
+
 
         return tweetMapper.entitiesToDtos(mentionedTweets);
     }
