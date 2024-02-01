@@ -3,15 +3,18 @@ package com.cooksys.social_media.services.impl;
 import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
+import com.cooksys.social_media.entities.Credentials;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
+import com.cooksys.social_media.exceptions.BadRequestException;
 import com.cooksys.social_media.exceptions.NotFoundException;
 import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.mappers.UserMapper;
 import com.cooksys.social_media.repositories.TweetRepository;
 import com.cooksys.social_media.repositories.UserRepository;
 import com.cooksys.social_media.services.UserService;
+import com.cooksys.social_media.services.ValidateService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -28,6 +31,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final TweetMapper tweetMapper;
     private final TweetRepository tweetRepository;
+
+
+    private final ValidateService validateService;
     @Override
     public List<UserResponseDto> getAllUsers() {
         return userMapper.entitiesToDtos(userRepository.findAllByDeletedFalse());
@@ -106,8 +112,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
+        User newUser = userMapper.requestDtoToEntity(userRequestDto);
+//        TODO: test after pulling validateService methods
+//        if(validateService.doesUsernameExist(newUser.getCredentials().getUsername())){
+//            newUser.setDeleted(false);
+//            return userMapper.entityToDto(newUser);
+//        }
+//
+//        if(!validateService.isUsernameAvailable(newUser.getCredentials().getUsername())){
+//            throw new BadRequestException("Username already exists");
+//        }
+        try{
+            userRepository.saveAndFlush(newUser);
+        } catch(Exception e){
+            throw new BadRequestException("Please fill out all required fields.");
+        }
+       return userMapper.entityToDto(newUser);
+
     }
 
     @Override
