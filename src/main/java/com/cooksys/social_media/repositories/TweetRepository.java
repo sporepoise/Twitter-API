@@ -11,4 +11,7 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet, Long> {
 
     List<Tweet> findByAuthorIdAndDeletedFalseOrderByPostedDesc(Long userId);
+
+    List<Tweet> findAllByDeletedFalseOrderByPostedDesc();
+
 }

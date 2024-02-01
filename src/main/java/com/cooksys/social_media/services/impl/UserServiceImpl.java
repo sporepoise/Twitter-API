@@ -14,6 +14,7 @@ import com.cooksys.social_media.repositories.UserRepository;
 import com.cooksys.social_media.services.UserService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,10 +72,24 @@ public class UserServiceImpl implements UserService {
         return tweetMapper.entitiesToDtos(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
     }
 
+    //TODO: retest after creating post tweet method
     @Override
-    public List<Tweet> getUserMentions(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserMentions'");
+    public List<TweetResponseDto> getUserMentions(String username) {
+        //TODO: create separate method for this block of code
+        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
+        if(optionalUser.isEmpty()){
+            throw new NotFoundException("Cannot find user with username: " + username);
+        }
+
+        List<Tweet> mentionedTweets = new ArrayList<>();
+
+        for( Tweet t: tweetRepository.findAllByDeletedFalseOrderByPostedDesc()){
+            if(t.getContent() != null && t.getContent().contains("@" + username)){
+                mentionedTweets.add(t);
+            }
+        }
+
+        return tweetMapper.entitiesToDtos(mentionedTweets);
     }
 
     @Override
