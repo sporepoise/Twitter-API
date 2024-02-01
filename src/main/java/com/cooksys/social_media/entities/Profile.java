@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -15,7 +16,7 @@ public class Profile {
 
     private String lastName;
 
-    @NonNull
+    @Column(nullable = false)
     private String email;
 
     private String phone;
