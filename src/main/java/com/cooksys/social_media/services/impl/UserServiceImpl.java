@@ -187,15 +187,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void followUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'followUser'");
+    public void followUser(String username, CredentialsDto credentialsDto) {
+        User userToFollow = getExistingUser(username);
+        User user = getExistingUser(credentialsDto.getUsername());
+
+        if(!user.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+            throw new BadRequestException("The username or password provided is incorrect.");
+        }
+
+        List<User> following = user.getFollowing();
+        for(User u: following){
+            if(u.getCredentials().getUsername().equals(username)){
+                throw new BadRequestException("You are already following this user.");
+            }
+        }
+
+        following.add(userToFollow);
+        userRepository.saveAndFlush(user);
+        List<User> followers = userToFollow.getFollowers();
+        followers.add(user);
+        userRepository.saveAndFlush(userToFollow);
+
     }
 
     @Override
-    public void unfollowUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unfollowUser'");
+    public void unfollowUser(String username, CredentialsDto credentialsDto) {
+        User userToUnfollow = getExistingUser(username);
+        User user = getExistingUser(credentialsDto.getUsername());
+
+        if(!user.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+            throw new BadRequestException("The username or password provided is incorrect.");
+        }
+
+        List<User> following = user.getFollowing();
+        for(User u: following){
+            if(u.getCredentials().getUsername().equals(username)){
+                throw new BadRequestException("You don't currently follow this user.");
+            }
+        }
+
+        following.remove(userToUnfollow);
+        userRepository.saveAndFlush(user);
+        List<User> followers = userToUnfollow.getFollowers();
+        followers.remove(user);
+        userRepository.saveAndFlush(userToUnfollow);
     }
 
 }
