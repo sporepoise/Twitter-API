@@ -212,7 +212,7 @@ public class TweetServiceImpl implements TweetService {
     public TweetResponseDto replyToTweet(TweetRequestDto tweetRequestDto, Long id) {
     	
     	Credentials credentials = credentialsMapper.dtoToEntity(tweetRequestDto.getCredentials());
-    	Optional<Tweet> tweet = tweetRepository.findByIdDeletedFalse(id);
+    	Optional<Tweet> tweet = tweetRepository.findByIdAndDeletedFalse(id);
     	Tweet reply = tweetMapper.requestDtoToEntity(tweetRequestDto);
     	
     	
