@@ -155,8 +155,15 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createTweet'");
+        Tweet t = tweetMapper.requestDtoToEntity(tweetRequestDto);
+        Optional<User> x = userRepository.findByCredentialsUsernameAndDeletedFalse(tweetRequestDto.getCredentials().getUsername());
+        if (x.isEmpty()) {
+            throw new NotAuthorizedException("adnfalkdjn");
+        }
+        User o = x.get();
+        t.setAuthor(o);
+        tweetRepository.saveAndFlush(t);
+        return tweetMapper.entityToDto(t);
     }
 
     @Override

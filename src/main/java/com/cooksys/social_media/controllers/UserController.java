@@ -58,13 +58,13 @@ public class UserController {
     }
 
     @PostMapping("/@{username}/follow")
-    public void followUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto) {
-        userService.followUser(username, userRequestDto);
+    public void followUser(@PathVariable String username, @RequestBody CredentialsDto credentialsDto) {
+        userService.followUser(username, credentialsDto);
     }
 
     @PostMapping("/@{username}/unfollow")
-    public void unfollowUser(@PathVariable String username, @RequestBody UserRequestDto userRequestDto) {
-        userService.unfollowUser(username, userRequestDto);
+    public void unfollowUser(@PathVariable String username, @RequestBody CredentialsDto credentialsDto) {
+        userService.unfollowUser(username, credentialsDto);
     }
 
     @GetMapping("/@{username}/feed")
