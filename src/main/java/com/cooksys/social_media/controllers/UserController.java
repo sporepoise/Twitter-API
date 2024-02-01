@@ -2,6 +2,7 @@ package com.cooksys.social_media.controllers;
 
 import java.util.List;
 
+import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.services.ValidateService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,8 +53,8 @@ public class UserController {
     }
 
     @DeleteMapping("/@{username}")
-    public UserResponseDto deleteUser(@PathVariable String username) {
-        return userService.deleteUser(username);
+    public UserResponseDto deleteUser(@PathVariable String username, @RequestBody CredentialsDto credentialsDto) {
+        return userService.deleteUser(username, credentialsDto);
     }
 
     @PostMapping("/@{username}/follow")

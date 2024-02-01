@@ -1,5 +1,6 @@
 package com.cooksys.social_media.services.impl;
 
+import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
@@ -9,6 +10,7 @@ import com.cooksys.social_media.entities.User;
 
 import com.cooksys.social_media.exceptions.BadRequestException;
 import com.cooksys.social_media.exceptions.NotFoundException;
+import com.cooksys.social_media.mappers.CredentialsMapper;
 import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.mappers.UserMapper;
 import com.cooksys.social_media.repositories.TweetRepository;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final TweetMapper tweetMapper;
     private final TweetRepository tweetRepository;
+    private final CredentialsMapper credentialsMapper;
 
 
     private final ValidateService validateService;
@@ -76,9 +79,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto deleteUser(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
+    public UserResponseDto deleteUser(String username, CredentialsDto credentialsDto) {
+        User userToDelete = getExistingUser(username);
+        if(!userToDelete.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+            throw new BadRequestException("The username or password provided is incorrect.");
+        }
+        userToDelete = userRepository.getById(userToDelete.getId());
+        userToDelete.setDeleted(true);
+
+        return userMapper.entityToDto(userRepository.saveAndFlush(userToDelete));
     }
 
     @Override
