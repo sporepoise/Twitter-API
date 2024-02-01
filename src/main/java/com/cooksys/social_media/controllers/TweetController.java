@@ -2,6 +2,8 @@ package com.cooksys.social_media.controllers;
 
 import java.util.List;
 
+import com.cooksys.social_media.dtos.ContextDto;
+import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.dtos.TweetRequestDto;
 import com.cooksys.social_media.dtos.TweetResponseDto;
 
@@ -28,7 +30,7 @@ public class TweetController {
     private final TweetService tweetService;
 
     @GetMapping
-    public List<Tweet> getAllTweets() {
+    public List<TweetResponseDto> getAllTweets() {
         return tweetService.getAllTweets();
     }
 
@@ -43,23 +45,23 @@ public class TweetController {
     }
 
     @DeleteMapping("/{id}")
-    public TweetResponseDto deleteTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
-        return tweetService.deleteTweet(tweetRequestDto, id);
+    public TweetResponseDto deleteTweet(@RequestBody CredentialsDto credentialsDto, @PathVariable Long id) {
+        return tweetService.deleteTweet(credentialsDto, id);
     }
 
     @PostMapping("/{id}/like")
-    public void likeTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
-        tweetService.likeTweet(tweetRequestDto, id);
+    public void likeTweet(@RequestBody CredentialsDto credentialsDto, @PathVariable Long id) {
+        tweetService.likeTweet(credentialsDto, id);
     }
 
     @PostMapping("/{id}/reply")
-    public TweetResponseDto replyToTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
-        return tweetService.replyToTweet(tweetRequestDto, id);
+    public TweetResponseDto replyToTweet(@RequestBody CredentialsDto credentialsDto, @PathVariable Long id) {
+        return tweetService.replyToTweet(credentialsDto, id);
     }
 
     @PostMapping("/{id}/repost")
-    public TweetResponseDto repostTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
-        return tweetService.repostTweet(tweetRequestDto, id);
+    public TweetResponseDto repostTweet(@RequestBody CredentialsDto credentialsDto, @PathVariable Long id) {
+        return tweetService.repostTweet(credentialsDto, id);
     }
 
     @GetMapping("/{id}/tags")
@@ -73,7 +75,7 @@ public class TweetController {
     }
 
     @GetMapping("/{id}/context")
-    public TweetResponseDto getContextOfTweet(@PathVariable Long id) {
+    public ContextDto getContextOfTweet(@PathVariable Long id) {
         return tweetService.getContextOfTweet(id);
     }
 
