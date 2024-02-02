@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService {
         return optionalUser.get();
     }
 
+    private void checkCredentials(Credentials firstCredentials, Credentials secondCredentials){
+        if(!firstCredentials.equals(secondCredentials)){
+            throw new BadRequestException("The username or password provided is incorrect.");
+        }
+    }
+
     @Override
     public List<UserResponseDto> getAllUsers() {
         return userMapper.entitiesToDtos(userRepository.findAllByDeletedFalse());
@@ -57,21 +63,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUser(String username) {
-        Optional<User> optionalUser = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
-        if(optionalUser.isEmpty()){
-            throw new NotFoundException("Cannot find user with username: " + username);
-        }
-        return userMapper.entityToDto(optionalUser.get());
+        User newUser = getExistingUser(username);
+        return userMapper.entityToDto(newUser);
     }
 
     @Override
     public UserResponseDto updateUser(String username, UserRequestDto userRequestDto) {
       User user = getExistingUser(username);
       User userToCompare = userMapper.requestDtoToEntity(userRequestDto);
+//
+//      if(!user.getCredentials().equals(userToCompare.getCredentials())){
+//          throw new BadRequestException("The username or password provided is incorrect.");
+//      }
+        checkCredentials(user.getCredentials(), userToCompare.getCredentials());
 
-      if(!user.getCredentials().equals(userToCompare.getCredentials())){
-          throw new BadRequestException("The username or password provided is incorrect.");
-      }
       User userToUpdate = userRepository.getById(user.getId());
       userToUpdate.setProfile(userToCompare.getProfile());
       try{
@@ -85,9 +90,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto deleteUser(String username, CredentialsDto credentialsDto) {
         User userToDelete = getExistingUser(username);
-        if(!userToDelete.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
-            throw new BadRequestException("The username or password provided is incorrect.");
-        }
+//        if(!userToDelete.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+//            throw new BadRequestException("The username or password provided is incorrect.");
+//        }
+        checkCredentials(userToDelete.getCredentials(), credentialsMapper.dtoToEntity(credentialsDto));
         userToDelete = userRepository.getById(userToDelete.getId());
         userToDelete.setDeleted(true);
 
@@ -96,8 +102,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Tweet> getUserFeed(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserFeed'");
+        User user = getExistingUser(username);
+        List<Tweet> feed = new ArrayList<>(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
+        List<User> following = new ArrayList<>(user.getFollowing());
+
+        for(User u: following){
+            feed.addAll(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(u.getId()));
+        }
+       return feed;
     }
 
     @Override
@@ -124,78 +136,142 @@ public class UserServiceImpl implements UserService {
         return tweetMapper.entitiesToDtos(mentionedTweets);
     }
 
-    //not done
+
 	@Override
 	public List<UserResponseDto> getUserFollowers(String username) {
-		Optional<User> user = userRepository.findByCredentials_Username(username);
+		System.out.println("In the get user followers method");
+		System.out.println("The username is " + username);
+		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
+		System.out.println(user.isPresent());
+		
+		
 		List<UserResponseDto> followers = new ArrayList<UserResponseDto>();
-
+		
 		user.ifPresent(userEntity -> {
 
-			if (!userEntity.isDeleted()) {
-				for (User u : userEntity.getFollowers()) {
-					if (!u.isDeleted()) {
-						followers.add(userMapper.entityToDto(u));
-					}
+			for (User u : userEntity.getFollowers()) {
+				
+				if (!u.isDeleted()) {
+					System.out.println(u.getCredentials().getUsername() + " is a follower of " + userEntity.getCredentials().getUsername());
+					followers.add(userMapper.entityToDto(u));
 				}
-			} else {
-				//throw new NotFoundException("User not found");
 			}
+
 		});
 
-		//User can be deleted 
-		
 		// user doesn't exist
 		if (user.isEmpty()) {
 			throw new NotFoundException("User not found.");
 		}
+		System.out.println("Followers list size is " + followers.size());
 		return followers;
 	}
 
-	//not done
-    @Override
-    public List<UserResponseDto> getUserFolloweringUser(String username) {
-    	Optional<User> user = userRepository.findByCredentials_Username(username);
+
+	@Override
+	public List<UserResponseDto> getUserFolloweringUser(String username) {
+		System.out.println("In the  following method");
+		System.out.println("username is" + username);
+		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
 		List<UserResponseDto> following = new ArrayList<UserResponseDto>();
-       return null;
-    }
+
+		user.ifPresent(userEntity -> {
+			System.out.println("user is " + userEntity.getCredentials().getUsername());
+			System.out.println(userEntity.getFollowing());
+			for (User u : userEntity.getFollowing()) {
+				System.out.println(u.getCredentials().getUsername());
+				if (!u.isDeleted()) {
+					following.add(userMapper.entityToDto(u));
+				}
+			}
+
+		});
+
+		// user doesn't exist
+		if (user.isEmpty()) {
+			throw new NotFoundException("User not found.");
+		}
+		System.out.println("Following list size is " + following.size());
+		return following;
+	}
 
     @Override
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         User newUser = userMapper.requestDtoToEntity(userRequestDto);
-//        TODO: test after pulling validateService methods
-//        if(validateService.doesUsernameExist(newUser.getCredentials().getUsername())){
-//            newUser.setDeleted(false);
-//            try{
-//                userRepository.saveAndFlush(newUser);
-//            } catch (Exception e){
-//                throw new BadRequestException("Please fill out all required fields.");
-//            }
-//            return userMapper.entityToDto(newUser);
-//        }
-//
-//        if(!validateService.isUsernameAvailable(newUser.getCredentials().getUsername())){
-//            throw new BadRequestException("Username already exists");
-//        }
+        if(newUser.getCredentials() == null){
+            throw new BadRequestException("Please fill out all required fields.");
+        }
+        if(!validateService.isUsernameAvailable(newUser.getCredentials().getUsername())){
+            throw new BadRequestException("Username already exists");
+        }
         try{
             userRepository.saveAndFlush(newUser);
         } catch(Exception e){
             throw new BadRequestException("Please fill out all required fields.");
         }
+        if(validateService.doesUsernameExist(newUser.getCredentials().getUsername())){
+            newUser.setDeleted(false);
+            try{
+                userRepository.saveAndFlush(newUser);
+            } catch (Exception e){
+                throw new BadRequestException("Please fill out all required fields.");
+            }
+            return userMapper.entityToDto(newUser);
+        }
+
+
        return userMapper.entityToDto(newUser);
 
     }
 
     @Override
-    public void followUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'followUser'");
+    public void followUser(String username, CredentialsDto credentialsDto) {
+        User userToFollow = getExistingUser(username);
+        User user = getExistingUser(credentialsDto.getUsername());
+
+//        if(!user.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+//            throw new BadRequestException("The username or password provided is incorrect.");
+//        }
+
+        checkCredentials(user.getCredentials(), credentialsMapper.dtoToEntity(credentialsDto));
+
+        List<User> following = user.getFollowing();
+        for(User u: following){
+            if(u.getCredentials().getUsername().equals(username)){
+                throw new BadRequestException("You are already following this user.");
+            }
+        }
+
+        following.add(userToFollow);
+        userRepository.saveAndFlush(user);
+        List<User> followers = userToFollow.getFollowers();
+        followers.add(user);
+        userRepository.saveAndFlush(userToFollow);
+
     }
 
     @Override
-    public void unfollowUser(String username, UserRequestDto userRequestDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'unfollowUser'");
+    public void unfollowUser(String username, CredentialsDto credentialsDto) {
+        User userToUnfollow = getExistingUser(username);
+        User user = getExistingUser(credentialsDto.getUsername());
+
+//        if(!user.getCredentials().equals(credentialsMapper.dtoToEntity(credentialsDto))){
+//            throw new BadRequestException("The username or password provided is incorrect.");
+//        }
+        checkCredentials(user.getCredentials(), credentialsMapper.dtoToEntity(credentialsDto));
+
+        List<User> following = user.getFollowing();
+        for(User u: following){
+            if(u.getCredentials().getUsername().equals(username)){
+                throw new BadRequestException("You don't currently follow this user.");
+            }
+        }
+
+        following.remove(userToUnfollow);
+        userRepository.saveAndFlush(user);
+        List<User> followers = userToUnfollow.getFollowers();
+        followers.remove(user);
+        userRepository.saveAndFlush(userToUnfollow);
     }
 
 }

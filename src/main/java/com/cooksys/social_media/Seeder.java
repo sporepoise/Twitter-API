@@ -1,3 +1,4 @@
+
 package com.cooksys.social_media;
 
 import java.util.Arrays;
@@ -25,6 +26,9 @@ public class Seeder implements CommandLineRunner {
     private final TweetRepository tweetRepository;
     private final UserRepository userRepository;
 
+    /**
+     *
+     */
     @Override
     public void run(String... args) throws Exception {
 
@@ -274,10 +278,13 @@ public class Seeder implements CommandLineRunner {
         // Following
         List<User> following_1 = List.of(user2, user3, user4, deletedUser);
         user1.setFollowing(following_1);
-
+        userRepository.saveAndFlush(user1);
+        /*
         List<User> followers_1 = List.of(user5, deletedUser);
         user1.setFollowers(followers_1);
         userRepository.saveAndFlush(user1);
+		*/
     }
 
 }
+
