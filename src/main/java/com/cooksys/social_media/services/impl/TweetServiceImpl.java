@@ -14,8 +14,9 @@ import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.mappers.UserMapper;
 import com.cooksys.social_media.repositories.HashtagRepository;
 import com.cooksys.social_media.repositories.TweetRepository;
-
+import com.cooksys.social_media.repositories.UserRepository;
 import com.cooksys.social_media.services.TweetService;
+import com.cooksys.social_media.exceptions.BadRequestException;
 import com.cooksys.social_media.exceptions.NotAuthorizedException;
 import com.cooksys.social_media.exceptions.NotFoundException;
 
@@ -68,6 +69,7 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public TweetResponseDto getTweetWithId(Long id) {
+        
         Tweet t = getTweet(id);
         return tweetMapper.entityToDto(t);
     }
@@ -154,13 +156,26 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
+        if (tweetRequestDto.getCredentials() == null) {
+            throw new BadRequestException("No matching credentials");
+        }
         Tweet t = tweetMapper.requestDtoToEntity(tweetRequestDto);
         Optional<User> x = userRepository.findByCredentialsUsernameAndDeletedFalse(tweetRequestDto.getCredentials().getUsername());
         if (x.isEmpty()) {
-            throw new NotAuthorizedException("adnfalkdjn");
+            throw new NotAuthorizedException("User not found");
         }
         User o = x.get();
         t.setAuthor(o);
+        List<String> hTags = parseContent(t.getContent(), "#");
+        List<Hashtag> listOfHashtags = getHashTagsFromTokens(hTags);
+        for (Hashtag h : listOfHashtags) {
+            t.getHashtags().add(h);
+        }
+        List<String> mentions = parseContent(t.getContent(), "@");
+        List<User> listOfMentions = getUsersMentionedFromTokens(mentions);
+        for (User u : listOfMentions) {
+            t.getMentionedUsers().add(u);
+        }
         tweetRepository.saveAndFlush(t);
         return tweetMapper.entityToDto(t);
     }
