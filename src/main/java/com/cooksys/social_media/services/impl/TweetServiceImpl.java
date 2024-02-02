@@ -9,11 +9,9 @@ import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
-import com.cooksys.social_media.exceptions.BadRequestException;
 import com.cooksys.social_media.mappers.CredentialsMapper;
 import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.repositories.TweetRepository;
-import com.cooksys.social_media.repositories.UserRepository;
 
 import com.cooksys.social_media.services.TweetService;
 import com.cooksys.social_media.exceptions.NotAuthorizedException;
@@ -35,8 +33,7 @@ public class TweetServiceImpl implements TweetService {
     private final TweetMapper tweetMapper;
     private final TweetRepository tweetRepository;
     private final CredentialsMapper credentialsMapper;
-    
-    private final UserRepository userRepository;
+
 
     private Tweet getTweet(Long id) {
         Optional<Tweet> optionalTweet = tweetRepository.findById(id);
@@ -106,6 +103,7 @@ public class TweetServiceImpl implements TweetService {
                 trd = x;
             }
         }
+        Collections.reverse(after);
         c.setBefore(before);
         c.setAfter(after);
         return c;
