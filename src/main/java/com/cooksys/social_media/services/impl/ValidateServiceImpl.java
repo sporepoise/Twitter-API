@@ -15,6 +15,7 @@ public class ValidateServiceImpl implements ValidateService {
 
 	@Override
 	public boolean doesTagExist(String label) {
+		System.out.println("hashtag label is " + label);
 		return hashTagRepository.existsByLabel(label);
 
 	}
