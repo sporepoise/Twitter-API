@@ -30,7 +30,7 @@ public class User {
     @Column(nullable = false)
     private Timestamp joined;
 
-    private boolean deleted = false;
+    private boolean deleted;
 
     @OneToMany(mappedBy = "author")
     private List<Tweet> tweets;
