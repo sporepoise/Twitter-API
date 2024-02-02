@@ -29,7 +29,7 @@ public class ValidateServiceImpl implements ValidateService {
 	@Override
 	public boolean isUsernameAvailable(String username) {
 
-		if (userRepository.existsByCredentials_Username(username)) {
+		if (userRepository.existsByCredentialsUsernameAndDeletedFalse(username)) {
 			return false; // Unavailable
 		}
 		return true; // available

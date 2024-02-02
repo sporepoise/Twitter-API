@@ -2,10 +2,7 @@ package com.cooksys.social_media.controllers;
 
 import java.util.List;
 
-import com.cooksys.social_media.dtos.ContextDto;
-import com.cooksys.social_media.dtos.CredentialsDto;
-import com.cooksys.social_media.dtos.TweetRequestDto;
-import com.cooksys.social_media.dtos.TweetResponseDto;
+import com.cooksys.social_media.dtos.*;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,12 +63,12 @@ public class TweetController {
     }
 
     @GetMapping("/{id}/tags")
-    public List<Hashtag> getAllTagsOnPost(@PathVariable Long id) {
+    public List<HashtagDto> getAllTagsOnPost(@PathVariable Long id) {
         return tweetService.getAllTagsOnPost(id);
     }
 
     @GetMapping("/{id}/likes")
-    public List<User> getAllUsersWhoLikeThisTweet(@PathVariable Long id) {
+    public List<UserResponseDto> getAllUsersWhoLikeThisTweet(@PathVariable Long id) {
         return tweetService.getAllUsersWhoLikeThisTweet(id);
     }
 
@@ -81,17 +78,17 @@ public class TweetController {
     }
 
     @GetMapping("/{id}/replies")
-    public List<Tweet> getRepliesToTweet(@PathVariable Long id) {
+    public List<TweetResponseDto> getRepliesToTweet(@PathVariable Long id) {
         return tweetService.getRepliesToTweet(id);
     }
 
     @GetMapping("/{id}/reposts")
-    public List<Tweet> getRepostsOfTweet(@PathVariable Long id) {
+    public List<TweetResponseDto> getRepostsOfTweet(@PathVariable Long id) {
         return tweetService.getRepostsOfTweet(id);
     }
 
     @GetMapping("/{id}/mentions")
-    public List<User> getUsersInTweet(@PathVariable Long id) {
+    public List<UserResponseDto> getUsersInTweet(@PathVariable Long id) {
         return tweetService.getUsersInTweet(id);
     }
 

@@ -1,15 +1,13 @@
 package com.cooksys.social_media.services.impl;
 
-import com.cooksys.social_media.dtos.ContextDto;
-import com.cooksys.social_media.dtos.CredentialsDto;
-import com.cooksys.social_media.dtos.TweetRequestDto;
-import com.cooksys.social_media.dtos.TweetResponseDto;
+import com.cooksys.social_media.dtos.*;
 import com.cooksys.social_media.entities.Credentials;
 import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
 import com.cooksys.social_media.mappers.CredentialsMapper;
+import com.cooksys.social_media.mappers.HashtagMapper;
 import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.mappers.UserMapper;
 import com.cooksys.social_media.repositories.HashtagRepository;
@@ -38,6 +36,7 @@ public class TweetServiceImpl implements TweetService {
     private final TweetRepository tweetRepository;
     private final CredentialsMapper credentialsMapper;
     private final UserMapper userMapper;
+    private final HashtagMapper hashtagMapper;
     
     private final UserRepository userRepository;
     private final HashtagRepository hashTagRepository;
@@ -75,13 +74,13 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Hashtag> getAllTagsOnPost(Long id) {
+    public List<HashtagDto> getAllTagsOnPost(Long id) {
         Tweet t = getTweet(id);
-        return t.getHashtags();
+        return hashtagMapper.entitiesToDtos(t.getHashtags());
     }
 
     @Override
-    public List<User> getAllUsersWhoLikeThisTweet(Long id) {
+    public List<UserResponseDto> getAllUsersWhoLikeThisTweet(Long id) {
         Tweet t = getTweet(id);
         List<User> usersWhoLikedThisTweet = new ArrayList<>();
         for (User u : t.getLikedByUsers()) {
@@ -89,7 +88,7 @@ public class TweetServiceImpl implements TweetService {
                 usersWhoLikedThisTweet.add(u);
             }
         }
-        return usersWhoLikedThisTweet;
+        return userMapper.entitiesToDtos(usersWhoLikedThisTweet);
     }
 
     @Override
@@ -119,19 +118,19 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> getRepliesToTweet(Long id) {
+    public List<TweetResponseDto> getRepliesToTweet(Long id) {
         Tweet t = getTweet(id);
         List<Tweet> repliesToTweet = new ArrayList<>();
-        for (Tweet tR : t.getReposts()) {
+        for (Tweet tR : t.getReplies()) {
             if (!tR.getInReplyTo().isDeleted()) {
                 repliesToTweet.add(tR);
             }
         }
-        return repliesToTweet;
+        return tweetMapper.entitiesToDtos(repliesToTweet);
     }
 
     @Override
-    public List<Tweet> getRepostsOfTweet(Long id) {
+    public List<TweetResponseDto> getRepostsOfTweet(Long id) {
         Tweet t = getTweet(id);
         List<Tweet> repostsOfTweet = new ArrayList<>();
         for (Tweet tR : t.getReposts()) {
@@ -139,11 +138,11 @@ public class TweetServiceImpl implements TweetService {
                 repostsOfTweet.add(tR);
             }
         }
-        return repostsOfTweet;
+        return tweetMapper.entitiesToDtos(repostsOfTweet);
     }
 
     @Override
-    public List<User> getUsersInTweet(Long id) {
+    public List<UserResponseDto> getUsersInTweet(Long id) {
         Tweet t = getTweet(id);
         List<User> mentionedUsers = new ArrayList<>();
         for (User u : t.getMentionedUsers()) {
@@ -151,7 +150,7 @@ public class TweetServiceImpl implements TweetService {
                 mentionedUsers.add(u);
             }
         }
-        return mentionedUsers;
+        return userMapper.entitiesToDtos(mentionedUsers);
     }
 
     @Override
@@ -268,8 +267,8 @@ public class TweetServiceImpl implements TweetService {
     				hashTagRepository.saveAndFlush(tag); //save the tag
     			}
     		}
-    		
-    		
+
+            reply.setAuthor(userRepository.findByCredentials_Username(credentials.getUsername()));
     		
     	} else {
     		throw new BadRequestException("Could not Reply to tweet");
