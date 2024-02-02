@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Tweet> getUserFeed(String username) {
+    public List<TweetResponseDto> getUserFeed(String username) {
         User user = getExistingUser(username);
         List<Tweet> feed = new ArrayList<>(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
         List<User> following = new ArrayList<>(user.getFollowing());
@@ -109,7 +109,8 @@ public class UserServiceImpl implements UserService {
         for(User u: following){
             feed.addAll(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(u.getId()));
         }
-       return feed;
+        
+       return tweetMapper.entitiesToDtos(feed);
     }
 
     @Override
@@ -139,13 +140,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserResponseDto> getUserFollowers(String username) {
+		System.out.println("In the get user followers method");
+		System.out.println("The username is " + username);
 		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
+		System.out.println(user.isPresent());
+		
+		
 		List<UserResponseDto> followers = new ArrayList<UserResponseDto>();
-
+		
 		user.ifPresent(userEntity -> {
 
 			for (User u : userEntity.getFollowers()) {
+				
 				if (!u.isDeleted()) {
+					System.out.println(u.getCredentials().getUsername() + " is a follower of " + userEntity.getCredentials().getUsername());
 					followers.add(userMapper.entityToDto(u));
 				}
 			}
@@ -156,18 +164,23 @@ public class UserServiceImpl implements UserService {
 		if (user.isEmpty()) {
 			throw new NotFoundException("User not found.");
 		}
+		System.out.println("Followers list size is " + followers.size());
 		return followers;
 	}
 
 
 	@Override
 	public List<UserResponseDto> getUserFolloweringUser(String username) {
+		System.out.println("In the  following method");
+		System.out.println("username is" + username);
 		Optional<User> user = userRepository.findByCredentialsUsernameAndDeletedFalse(username);
 		List<UserResponseDto> following = new ArrayList<UserResponseDto>();
 
 		user.ifPresent(userEntity -> {
-
+			System.out.println("user is " + userEntity.getCredentials().getUsername());
+			System.out.println(userEntity.getFollowing());
 			for (User u : userEntity.getFollowing()) {
+				System.out.println(u.getCredentials().getUsername());
 				if (!u.isDeleted()) {
 					following.add(userMapper.entityToDto(u));
 				}
@@ -179,6 +192,7 @@ public class UserServiceImpl implements UserService {
 		if (user.isEmpty()) {
 			throw new NotFoundException("User not found.");
 		}
+		System.out.println("Following list size is " + following.size());
 		return following;
 	}
 

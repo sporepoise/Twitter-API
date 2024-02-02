@@ -29,6 +29,8 @@ public class HashtagServiceImpl implements HashtagService {
     @Override
     public List<HashtagDto> getAllHashtags() {
         // TODO Auto-generated method stub
+    	System.out.println("Getting all hashtags");
+    	System.out.println("size of list is " + hashTagRepository.findAll().size());
     	return hashTagMapper.entitiesToDtos(hashTagRepository.findAll());
         
     }
