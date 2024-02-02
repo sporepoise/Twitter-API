@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Tweet> getUserFeed(String username) {
+    public List<TweetResponseDto> getUserFeed(String username) {
         User user = getExistingUser(username);
         List<Tweet> feed = new ArrayList<>(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
         List<User> following = new ArrayList<>(user.getFollowing());
@@ -109,7 +109,8 @@ public class UserServiceImpl implements UserService {
         for(User u: following){
             feed.addAll(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(u.getId()));
         }
-       return feed;
+        
+       return tweetMapper.entitiesToDtos(feed);
     }
 
     @Override

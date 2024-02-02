@@ -26,9 +26,6 @@ public class Seeder implements CommandLineRunner {
     private final TweetRepository tweetRepository;
     private final UserRepository userRepository;
 
-    /**
-     *
-     */
     @Override
     public void run(String... args) throws Exception {
 /*
