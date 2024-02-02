@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class Seeder implements CommandLineRunner {
+public class ASeeder implements CommandLineRunner {
 
     private final HashtagRepository hashtagRepository;
     private final TweetRepository tweetRepository;
