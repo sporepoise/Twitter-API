@@ -102,8 +102,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Tweet> getUserFeed(String username) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserFeed'");
+        User user = getExistingUser(username);
+        List<Tweet> feed = new ArrayList<>(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(user.getId()));
+        List<User> following = new ArrayList<>(user.getFollowing());
+
+        for(User u: following){
+            feed.addAll(tweetRepository.findByAuthorIdAndDeletedFalseOrderByPostedDesc(u.getId()));
+        }
+       return feed;
     }
 
     @Override
