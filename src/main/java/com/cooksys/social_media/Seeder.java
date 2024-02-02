@@ -1,33 +1,37 @@
-//package com.cooksys.social_media;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.stereotype.Component;
-//
-//import com.cooksys.social_media.entities.Credentials;
-//import com.cooksys.social_media.entities.Hashtag;
-//import com.cooksys.social_media.entities.Profile;
-//import com.cooksys.social_media.entities.Tweet;
-//import com.cooksys.social_media.entities.User;
-//import com.cooksys.social_media.repositories.HashtagRepository;
-//import com.cooksys.social_media.repositories.TweetRepository;
-//import com.cooksys.social_media.repositories.UserRepository;
-//
-//import lombok.RequiredArgsConstructor;
-//
-//@Component
-//@RequiredArgsConstructor
-//public class Seeder implements CommandLineRunner {
-//
-//    private final HashtagRepository hashtagRepository;
-//    private final TweetRepository tweetRepository;
-//    private final UserRepository userRepository;
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//
+
+package com.cooksys.social_media;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import com.cooksys.social_media.entities.Credentials;
+import com.cooksys.social_media.entities.Hashtag;
+import com.cooksys.social_media.entities.Profile;
+import com.cooksys.social_media.entities.Tweet;
+import com.cooksys.social_media.entities.User;
+import com.cooksys.social_media.repositories.HashtagRepository;
+import com.cooksys.social_media.repositories.TweetRepository;
+import com.cooksys.social_media.repositories.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Component
+@RequiredArgsConstructor
+public class Seeder implements CommandLineRunner {
+
+    private final HashtagRepository hashtagRepository;
+    private final TweetRepository tweetRepository;
+    private final UserRepository userRepository;
+
+    /**
+     *
+     */
+    @Override
+    public void run(String... args) throws Exception {
+
 //        // --- User 1 ---
 //        // Credentials
 //        Credentials user1Cred = new Credentials();
@@ -278,6 +282,8 @@
 //        List<User> followers_1 = List.of(user5, deletedUser);
 //        user1.setFollowers(followers_1);
 //        userRepository.saveAndFlush(user1);
-//    }
-//
-//}
+
+    }
+
+}
+
