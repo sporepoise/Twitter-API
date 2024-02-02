@@ -268,7 +268,8 @@ public class TweetServiceImpl implements TweetService {
     				hashTagRepository.saveAndFlush(tag); //save the tag
     			}
     		}
-    		
+    		//set author of reply tweet
+    		reply.setAuthor(userRepository.findByCredentials_Username(credentials.getUsername()).get());
     		
     		
     	} else {
