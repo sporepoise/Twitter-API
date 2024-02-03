@@ -75,6 +75,7 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<HashtagDto> getAllTagsOnPost(Long id) {
+    	
         Tweet t = getTweet(id);
         return hashtagMapper.entitiesToDtos(t.getHashtags());
     }
@@ -267,14 +268,10 @@ public class TweetServiceImpl implements TweetService {
     				hashTagRepository.saveAndFlush(tag); //save the tag
     			}
     		}
-<<<<<<< HEAD
-    		//set author of reply tweet
-    		reply.setAuthor(userRepository.findByCredentials_Username(credentials.getUsername()).get());
-    		
-=======
+
 
             reply.setAuthor(userRepository.findByCredentials_Username(credentials.getUsername()));
->>>>>>> master
+
     		
     	} else {
     		throw new BadRequestException("Could not Reply to tweet");
