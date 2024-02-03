@@ -83,6 +83,7 @@ public class TweetServiceImpl implements TweetService {
             emptyList.add(s.substring(1));
         }
         List<Hashtag> listOfTags = getHashTagsFromTokens(emptyList);
+        
         return hashtagMapper.entitiesToDtos(listOfTags);
     }
 
