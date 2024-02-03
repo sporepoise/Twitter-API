@@ -6,9 +6,10 @@ import com.cooksys.social_media.mappers.HashtagMapper;
 import com.cooksys.social_media.mappers.TweetMapper;
 import com.cooksys.social_media.repositories.HashtagRepository;
 import com.cooksys.social_media.repositories.TweetRepository;
-import com.cooksys.social_media.entities.Hashtag;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.services.HashtagService;
+import com.cooksys.social_media.exceptions.NotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -28,24 +29,26 @@ public class HashtagServiceImpl implements HashtagService {
 	
     @Override
     public List<HashtagDto> getAllHashtags() {
-        // TODO Auto-generated method stub
-    	System.out.println("Getting all hashtags");
-    	System.out.println("size of list is " + hashTagRepository.findAll().size());
-    	return hashTagMapper.entitiesToDtos(hashTagRepository.findAll());
-        
+    	return hashTagMapper.entitiesToDtos(hashTagRepository.findAll());        
     }
 
     @Override
     public List<TweetResponseDto> getAllTweetsWithHashtag(String label) {
-    	List<Tweet> tweets = tweetRepository.findAllByDeletedFalseOrderByPostedDesc();
+		List<String> listOfTags = new ArrayList<>();
+		for (HashtagDto h : getAllHashtags()) {
+			listOfTags.add(h.getLabel());
+		}
+		if (!listOfTags.contains(label)){
+			throw new NotFoundException("Label does not exist!");
+		}
+    	List<Tweet> allTweets = tweetRepository.findAllByDeletedFalseOrderByPostedDesc();
     	
-    	List<TweetResponseDto> tweetsWithTag = new ArrayList();
+    	List<TweetResponseDto> tweetsWithTag = new ArrayList<>();
     	
-    	for(Tweet tweet : tweets) {
+    	for(Tweet tweet : allTweets) {
     		if(tweet.getContent().contains(label)) {
     			tweetsWithTag.add(tweetMapper.entityToDto(tweet));
-    		}
-    		
+    		}    		
     	}
         return tweetsWithTag;
     }

@@ -4,14 +4,11 @@ import java.util.List;
 
 import com.cooksys.social_media.dtos.HashtagDto;
 import com.cooksys.social_media.dtos.TweetResponseDto;
-import com.cooksys.social_media.entities.Hashtag;
-import com.cooksys.social_media.entities.Tweet;
 
 public interface HashtagService {
 
     List<HashtagDto> getAllHashtags();
 
-    List<TweetResponseDto> getAllTweetsWithHashtag(String label);
-    
+    List<TweetResponseDto> getAllTweetsWithHashtag(String label);    
 
 }

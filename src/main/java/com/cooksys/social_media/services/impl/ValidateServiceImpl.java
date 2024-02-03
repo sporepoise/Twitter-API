@@ -16,23 +16,18 @@ public class ValidateServiceImpl implements ValidateService {
 	@Override
 	public boolean doesTagExist(String label) {
 		return hashTagRepository.existsByLabel(label);
-
 	}
 
 	@Override
-	public boolean doesUsernameExist(String username) {
-		
+	public boolean doesUsernameExist(String username) {		
 		return userRepository.existsByCredentials_Username(username);
-
 	}
 
 	@Override
 	public boolean isUsernameAvailable(String username) {
-
 		if (userRepository.existsByCredentialsUsernameAndDeletedFalse(username)) {
-			return false; // Unavailable
+			return false;
 		}
-		return true; // available
-
+		return true;
 	}
 }

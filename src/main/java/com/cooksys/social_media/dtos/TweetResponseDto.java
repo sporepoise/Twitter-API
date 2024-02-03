@@ -8,7 +8,6 @@ import lombok.*;
 @Data
 public class TweetResponseDto {
 
-
 	private Long id;
 
     private UserResponseDto author;

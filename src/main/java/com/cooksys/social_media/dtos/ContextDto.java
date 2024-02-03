@@ -10,10 +10,8 @@ public class ContextDto {
 	
 	 private TweetResponseDto target;
 
-
 	 private List<TweetResponseDto> before;
 
-	 private List<TweetResponseDto> after;
-	 
+	 private List<TweetResponseDto> after;	 
 
 }

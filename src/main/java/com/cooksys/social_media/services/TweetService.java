@@ -3,10 +3,6 @@ package com.cooksys.social_media.services;
 import java.util.List;
 
 import com.cooksys.social_media.dtos.*;
-import com.cooksys.social_media.entities.Hashtag;
-import com.cooksys.social_media.entities.Tweet;
-import com.cooksys.social_media.entities.User;
-
 
 public interface TweetService {
 

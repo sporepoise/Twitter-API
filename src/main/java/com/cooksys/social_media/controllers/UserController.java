@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.dtos.TweetResponseDto;
-import com.cooksys.social_media.services.ValidateService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
-import com.cooksys.social_media.entities.Tweet;
-import com.cooksys.social_media.entities.User;
 import com.cooksys.social_media.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService userService;
-    private final ValidateService validateService;
 
     @GetMapping
     public List<UserResponseDto> getAllUsers() {

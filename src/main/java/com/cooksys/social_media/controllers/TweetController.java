@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.social_media.entities.Hashtag;
-import com.cooksys.social_media.entities.Tweet;
-import com.cooksys.social_media.entities.User;
 import com.cooksys.social_media.services.TweetService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,7 +48,6 @@ public class TweetController {
         tweetService.likeTweet(credentialsDto, id);
     }
 
-    //here
     @PostMapping("/{id}/reply")
     public TweetResponseDto replyToTweet(@RequestBody TweetRequestDto tweetRequestDto, @PathVariable Long id) {
         return tweetService.replyToTweet(tweetRequestDto, id);

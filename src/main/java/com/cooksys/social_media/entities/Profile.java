@@ -2,7 +2,6 @@ package com.cooksys.social_media.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -20,4 +19,5 @@ public class Profile {
     private String email;
 
     private String phone;
+    
 }

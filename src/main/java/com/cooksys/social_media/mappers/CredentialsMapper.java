@@ -3,7 +3,6 @@ package com.cooksys.social_media.mappers;
 import com.cooksys.social_media.dtos.CredentialsDto;
 import com.cooksys.social_media.entities.Credentials;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CredentialsMapper {
