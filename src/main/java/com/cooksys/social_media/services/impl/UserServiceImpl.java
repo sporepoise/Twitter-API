@@ -5,6 +5,7 @@ import com.cooksys.social_media.dtos.TweetResponseDto;
 import com.cooksys.social_media.dtos.UserRequestDto;
 import com.cooksys.social_media.dtos.UserResponseDto;
 import com.cooksys.social_media.entities.Credentials;
+import com.cooksys.social_media.entities.Profile;
 import com.cooksys.social_media.entities.Tweet;
 import com.cooksys.social_media.entities.User;
 
@@ -71,19 +72,41 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto updateUser(String username, UserRequestDto userRequestDto) {
       User user = getExistingUser(username);
       User userToCompare = userMapper.requestDtoToEntity(userRequestDto);
+      User userToUpdate = userRepository.getById(user.getId());
+      if (userRequestDto.getProfile() == null) {
+        throw new BadRequestException("No profile attached.");
+      }
 //
 //      if(!user.getCredentials().equals(userToCompare.getCredentials())){
 //          throw new BadRequestException("The username or password provided is incorrect.");
 //      }
         checkCredentials(user.getCredentials(), userToCompare.getCredentials());
 
-      User userToUpdate = userRepository.getById(user.getId());
-      userToUpdate.setProfile(userToCompare.getProfile());
-      try{
-          userRepository.saveAndFlush(userToUpdate);
-      }catch(Exception e){
-          throw new BadRequestException("Please fill out all required fields.");
-        }
+
+      Profile profile = new Profile();
+      if(userToCompare.getProfile().getFirstName() != null){
+          profile.setFirstName(userToCompare.getProfile().getFirstName());
+      }else{
+          profile.setFirstName(userToUpdate.getProfile().getFirstName());
+      }
+      if(userToCompare.getProfile().getLastName() != null){
+          profile.setLastName(userToCompare.getProfile().getLastName());
+        }else{
+          profile.setLastName(userToUpdate.getProfile().getLastName());
+      }
+      if(userToCompare.getProfile().getEmail() != null){
+          profile.setEmail(userToCompare.getProfile().getEmail());
+      }else {
+          profile.setEmail(userToUpdate.getProfile().getEmail());
+      }
+      if(userToCompare.getProfile().getPhone() != null){
+          profile.setPhone(userToCompare.getProfile().getPhone());
+      }else{
+          profile.setPhone(userToUpdate.getProfile().getPhone());
+      }
+      userToUpdate.setProfile(profile);
+      userRepository.saveAndFlush(userToUpdate);
+
       return userMapper.entityToDto(userToUpdate);
     }
 

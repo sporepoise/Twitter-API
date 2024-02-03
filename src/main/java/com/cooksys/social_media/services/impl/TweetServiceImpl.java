@@ -77,7 +77,13 @@ public class TweetServiceImpl implements TweetService {
     public List<HashtagDto> getAllTagsOnPost(Long id) {
     	
         Tweet t = getTweet(id);
-        return hashtagMapper.entitiesToDtos(t.getHashtags());
+        List<String> emptyList = new ArrayList<>();
+        List<String> listOfWords = parseContent(t.getContent(), "#");
+        for (String s : listOfWords) {
+            emptyList.add(s.substring(1));
+        }
+        List<Hashtag> listOfTags = getHashTagsFromTokens(emptyList);
+        return hashtagMapper.entitiesToDtos(listOfTags);
     }
 
     @Override
@@ -158,6 +164,12 @@ public class TweetServiceImpl implements TweetService {
     public TweetResponseDto createTweet(TweetRequestDto tweetRequestDto) {
         if (tweetRequestDto.getCredentials() == null) {
             throw new BadRequestException("No matching credentials");
+        }
+        if (tweetRequestDto.getContent() == null) {
+            throw new BadRequestException("Must contain content");
+        }
+        if (tweetRequestDto.getCredentials().getPassword() == null) {
+            throw new BadRequestException("Must input password");
         }
         Tweet t = tweetMapper.requestDtoToEntity(tweetRequestDto);
         Optional<User> x = userRepository.findByCredentialsUsernameAndDeletedFalse(tweetRequestDto.getCredentials().getUsername());
