@@ -74,13 +74,16 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto updateUser(String username, UserRequestDto userRequestDto) {
       User user = getExistingUser(username);
       User userToCompare = userMapper.requestDtoToEntity(userRequestDto);
+      User userToUpdate = userRepository.getById(user.getId());
+      if (userRequestDto.getProfile() == null) {
+        throw new BadRequestException("No profile attached.");
+      }
 //
 //      if(!user.getCredentials().equals(userToCompare.getCredentials())){
 //          throw new BadRequestException("The username or password provided is incorrect.");
 //      }
         checkCredentials(user.getCredentials(), userToCompare.getCredentials());
 
-      User userToUpdate = userRepository.getById(user.getId());
       Profile profile = new Profile();
       if(userToCompare.getProfile().getFirstName() != null){
           profile.setFirstName(userToCompare.getProfile().getFirstName());
@@ -102,9 +105,7 @@ public class UserServiceImpl implements UserService {
       }else{
           profile.setPhone(userToUpdate.getProfile().getPhone());
       }
-
       userToUpdate.setProfile(profile);
-
       userRepository.saveAndFlush(userToUpdate);
       return userMapper.entityToDto(userToUpdate);
     }
